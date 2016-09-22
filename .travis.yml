@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+- 2.2.5
+- 1.9.3
+- jruby-19mode
+- rbx-2
+addons:
+  postgresql: "9.3"
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+  - bin/rake db:migrate RAILS_ENV=test # いらない？
+deploy:
+  provider: heroku
+  api_key:
+    secure: sZ121xGEAB5tCFHAbx0GP59SoKX+io5H4F2LCVD+LRzwjyaKrdIo5bpmzXVD2kw/DN4CE8g7PpVOBDYg1dgjykUUYuSTHa1fyBEeF3/yWxdxWq+S6Xg0x5ryzKNQacOArrzURwPeofZDaJuE4nxgi+/teZ12VYER6VWuIAXLXm027ibKB51m33VoHhZGmIayejhRPHxqn8FJup7z/8/+jqut2H+kOkI7/w90DvrXm/Ol/36i8M+L1t6Hh4u02u5bJ/0PcIaa08fc856hZhiKjgsvvMXdapm/qSBtjWpnEp22TfQqAhBcaniO6X0zfHo0AbDDjQRNsi0Y/USCvO6YiVC/5yC/bjXlbL8VXuBy9blOFsbMvNYw038ACbHsk+XdYO6Hr4O7GqGT3FRtAV1Z9wejZpA7TWPXuj4zG4VvjpteKwfaNeqOOKI6bAkh0fstnPVIXTm4XQeWCIYvGSDwlldt0lRz05DhWfInxYiOg4wOA4BlNFhxxD3c1CBOvOulwbz1xEZHLsNgPCLGSJkielZlblqnCdIXclxnShXVUOeeHJQjwTRGHwwVyCrefxxrxAYw7rhI5DrWhUKtPuhNawceWF1U5tOrtzUnUy2wtrouQ0IJi+POgfRxt6iPnOjQuphGWccaYPz0WCGP9MFGvF58vLwQlDdOAGoy+QTfDY0=
+  app: obscure-castle-17775
+  on:
+    repo: HirokiTakenaka/rails_enpit
